@@ -1,0 +1,30 @@
+import React from "react";
+import { CircularProgress, Box, Typography } from "@mui/material";
+
+const LoadingSpinner = ({ message = "Loading...", size = 40 }) => {
+  return (
+    <Box
+      display="flex"
+      flexDirection="column"
+      justifyContent="center"
+      alignItems="center"
+      minHeight="200px"
+      gap={2}
+    >
+      <CircularProgress
+        size={size}
+        sx={{
+          color: "primary.main",
+          "& .MuiCircularProgress-circle": {
+            strokeLinecap: "round",
+          },
+        }}
+      />
+      <Typography variant="body1" color="text.secondary">
+        {message}
+      </Typography>
+    </Box>
+  );
+};
+
+export default LoadingSpinner;

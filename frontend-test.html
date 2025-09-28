@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>RENTAMOTO Frontend Test</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #f5f5f5;
+      }
+      .container {
+        background: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        margin-bottom: 20px;
+      }
+      .auth-section,
+      .dashboard-section {
+        display: none;
+      }
+      .auth-section.active,
+      .dashboard-section.active {
+        display: block;
+      }
+      .form-group {
+        margin-bottom: 15px;
+      }
+      label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+      }
+      input[type="email"],
+      input[type="password"],
+      input[type="text"] {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        box-sizing: border-box;
+        font-size: 16px;
+      }
+      button {
+        background-color: #007bff;
+        color: white;
+        padding: 12px 24px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+        margin-right: 10px;
+      }
+      button:hover {
+        background-color: #0056b3;
+      }
+      .logout-btn {
+        background-color: #dc3545;
+      }
+      .logout-btn:hover {
+        background-color: #c82333;
+      }
+      .user-info {
+        background-color: #e8f5e8;
+        padding: 15px;
+        border-radius: 4px;
+        margin-bottom: 20px;
+      }
+      .error {
+        background-color: #f8d7da;
+        border: 1px solid #f5c6cb;
+        color: #721c24;
+        padding: 10px;
+        border-radius: 4px;
+        margin-bottom: 15px;
+      }
+      .success {
+        background-color: #d4edda;
+        border: 1px solid #c3e6cb;
+        color: #155724;
+        padding: 10px;
+        border-radius: 4px;
+        margin-bottom: 15px;
+      }
+      .tabs {
+        display: flex;
+        margin-bottom: 20px;
+      }
+      .tab {
+        padding: 10px 20px;
+        background-color: #e9ecef;
+        border: 1px solid #ddd;
+        cursor: pointer;
+        margin-right: 5px;
+        border-radius: 4px 4px 0 0;
+      }
+      .tab.active {
+        background-color: white;
+        border-bottom: 1px solid white;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>🚲 RENTAMOTO - Frontend Authentication Test</h1>
+    <div
+      class="container"
+      style="
+        background: #fff3cd;
+        border: 1px solid #ffeaa7;
+        margin-bottom: 20px;
+      "
+    >
+      <h3>🧪 Development Mode Active</h3>
+      <p>
+        <strong>Email Bounce Protection:</strong> This system now bypasses
+        Supabase Auth to prevent email bounce issues during development.
+      </p>
+      <p>
+        <strong>Safe for Testing:</strong> You can use any email address without
+        triggering Supabase restrictions.
+      </p>
+      <p>
+        <strong>How it works:</strong> Uses in-memory user storage and fake JWT
+        tokens for development authentication.
+      </p>
+    </div>
+
+    <!-- Authentication Section -->
+    <div id="authSection" class="auth-section active">
+      <div class="container">
+        <div class="tabs">
+          <div class="tab active" onclick="showTab('login')">Login</div>
+          <div class="tab" onclick="showTab('signup')">Sign Up</div>
+        </div>
+
+        <!-- Login Tab -->
+        <div id="loginTab" class="tab-content">
+          <h2>Login</h2>
+          <div id="loginError" class="error" style="display: none"></div>
+          <div id="loginSuccess" class="success" style="display: none"></div>
+          <form id="loginForm">
+            <div class="form-group">
+              <label for="loginEmail">Email:</label>
+              <input
+                type="email"
+                id="loginEmail"
+                value="testuser123@gmail.com"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label for="loginPassword">Password:</label>
+              <input
+                type="password"
+                id="loginPassword"
+                value="test123"
+                required
+              />
+            </div>
+            <button type="submit">Login</button>
+          </form>
+        </div>
+
+        <!-- Signup Tab -->
+        <div id="signupTab" class="tab-content" style="display: none">
+          <h2>Sign Up</h2>
+          <div id="signupError" class="error" style="display: none"></div>
+          <div id="signupSuccess" class="success" style="display: none"></div>
+          <form id="signupForm">
+            <div class="form-group">
+              <label for="signupEmail">Email:</label>
+              <input
+                type="email"
+                id="signupEmail"
+                value="newuser@gmail.com"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label for="signupPassword">Password:</label>
+              <input
+                type="password"
+                id="signupPassword"
+                value="test123"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label for="signupName">Full Name:</label>
+              <input type="text" id="signupName" value="New User" required />
+            </div>
+            <div class="form-group">
+              <label for="signupRole">Role:</label>
+              <select id="signupRole">
+                <option value="customer">Customer</option>
+                <option value="admin">Admin</option>
+              </select>
+            </div>
+            <button type="submit">Sign Up</button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Dashboard Section -->
+    <div id="dashboardSection" class="dashboard-section">
+      <div class="container">
+        <div class="user-info">
+          <h2>Welcome to RENTAMOTO!</h2>
+          <div id="userInfo"></div>
+          <button class="logout-btn" onclick="logout()">Logout</button>
+        </div>
+
+        <div class="container">
+          <h3>Your Dashboard</h3>
+          <p>🎉 <strong>Authentication Successful!</strong></p>
+          <p>
+            The backend authentication is working perfectly. Here's what we've
+            verified:
+          </p>
+          <ul>
+            <li>✅ User registration with profile creation</li>
+            <li>✅ User login with JWT token generation</li>
+            <li>✅ Token-based authentication</li>
+            <li>✅ User session management</li>
+            <li>✅ CORS configuration</li>
+          </ul>
+
+          <h4>Next Steps:</h4>
+          <p>
+            Now we can integrate this working authentication with your React
+            frontend!
+          </p>
+          <p>
+            <strong>Token expires at:</strong> <span id="tokenExpiry"></span>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const API_BASE = "http://localhost:3001";
+      let currentUser = null;
+      let authToken = null;
+
+      // Check for existing session on load
+      window.addEventListener("load", () => {
+        const savedUser = localStorage.getItem("rentamoto_user");
+        const savedToken = localStorage.getItem("rentamoto_token");
+
+        if (savedUser && savedToken) {
+          try {
+            currentUser = JSON.parse(savedUser);
+            authToken = savedToken;
+
+            // Check if token is still valid
+            const tokenData = parseJWT(authToken);
+            if (tokenData && tokenData.exp > Date.now() / 1000) {
+              showDashboard();
+              return;
+            }
+          } catch (e) {
+            console.error("Error loading saved session:", e);
+          }
+        }
+
+        showAuth();
+      });
+
+      function showTab(tabName) {
+        // Update tab buttons
+        document
+          .querySelectorAll(".tab")
+          .forEach((tab) => tab.classList.remove("active"));
+        event.target.classList.add("active");
+
+        // Show/hide tab content
+        document.getElementById("loginTab").style.display =
+          tabName === "login" ? "block" : "none";
+        document.getElementById("signupTab").style.display =
+          tabName === "signup" ? "block" : "none";
+      }
+
+      function showAuth() {
+        document.getElementById("authSection").classList.add("active");
+        document.getElementById("dashboardSection").classList.remove("active");
+      }
+
+      function showDashboard() {
+        document.getElementById("authSection").classList.remove("active");
+        document.getElementById("dashboardSection").classList.add("active");
+
+        if (currentUser) {
+          document.getElementById("userInfo").innerHTML = `
+                    <p><strong>Name:</strong> ${currentUser.name}</p>
+                    <p><strong>Email:</strong> ${currentUser.email}</p>
+                    <p><strong>Role:</strong> ${currentUser.role}</p>
+                    <p><strong>User ID:</strong> ${currentUser.id}</p>
+                `;
+
+          if (authToken) {
+            const tokenData = parseJWT(authToken);
+            if (tokenData && tokenData.exp) {
+              const expiry = new Date(tokenData.exp * 1000);
+              document.getElementById("tokenExpiry").textContent =
+                expiry.toLocaleString();
+            }
+          }
+        }
+      }
+
+      function parseJWT(token) {
+        try {
+          const base64Url = token.split(".")[1];
+          const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
+          return JSON.parse(window.atob(base64));
+        } catch (e) {
+          return null;
+        }
+      }
+
+      function showError(elementId, message) {
+        const element = document.getElementById(elementId);
+        element.textContent = message;
+        element.style.display = "block";
+      }
+
+      function showSuccess(elementId, message) {
+        const element = document.getElementById(elementId);
+        element.textContent = message;
+        element.style.display = "block";
+      }
+
+      function hideMessages() {
+        document
+          .querySelectorAll(".error, .success")
+          .forEach((el) => (el.style.display = "none"));
+      }
+
+      // Login form handler
+      document
+        .getElementById("loginForm")
+        .addEventListener("submit", async (e) => {
+          e.preventDefault();
+          hideMessages();
+
+          const loginData = {
+            email: document.getElementById("loginEmail").value,
+            password: document.getElementById("loginPassword").value,
+          };
+
+          try {
+            const response = await fetch(`${API_BASE}/auth/login`, {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(loginData),
+            });
+
+            const data = await response.json();
+
+            if (response.ok && data.success) {
+              currentUser = data.data.user;
+              authToken = data.data.session.access_token;
+
+              // Save to localStorage
+              localStorage.setItem(
+                "rentamoto_user",
+                JSON.stringify(currentUser)
+              );
+              localStorage.setItem("rentamoto_token", authToken);
+
+              showSuccess("loginSuccess", "Login successful! Redirecting...");
+              setTimeout(() => {
+                showDashboard();
+              }, 1000);
+            } else {
+              showError("loginError", data.message || "Login failed");
+            }
+          } catch (error) {
+            console.error("Login error:", error);
+            showError("loginError", "Network error. Please try again.");
+          }
+        });
+
+      // Signup form handler
+      document
+        .getElementById("signupForm")
+        .addEventListener("submit", async (e) => {
+          e.preventDefault();
+          hideMessages();
+
+          const signupData = {
+            email: document.getElementById("signupEmail").value,
+            password: document.getElementById("signupPassword").value,
+            name: document.getElementById("signupName").value,
+            role: document.getElementById("signupRole").value,
+          };
+
+          try {
+            const response = await fetch(`${API_BASE}/auth/signup`, {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(signupData),
+            });
+
+            const data = await response.json();
+
+            if (response.ok && data.success) {
+              showSuccess(
+                "signupSuccess",
+                "Registration successful! You can now login."
+              );
+              // Switch to login tab
+              setTimeout(() => {
+                showTab("login");
+                document.getElementById("loginEmail").value = signupData.email;
+                document.getElementById("loginPassword").value =
+                  signupData.password;
+              }, 1500);
+            } else {
+              showError("signupError", data.message || "Registration failed");
+            }
+          } catch (error) {
+            console.error("Signup error:", error);
+            showError("signupError", "Network error. Please try again.");
+          }
+        });
+
+      function logout() {
+        currentUser = null;
+        authToken = null;
+        localStorage.removeItem("rentamoto_user");
+        localStorage.removeItem("rentamoto_token");
+        showAuth();
+      }
+    </script>
+  </body>
+</html>

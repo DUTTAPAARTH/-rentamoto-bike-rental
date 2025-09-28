@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>RENTAMOTO Auth Test</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #f5f5f5;
+      }
+      .container {
+        background: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        margin-bottom: 20px;
+      }
+      .form-group {
+        margin-bottom: 15px;
+      }
+      label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+      }
+      input[type="email"],
+      input[type="password"],
+      input[type="text"] {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        box-sizing: border-box;
+      }
+      button {
+        background-color: #007bff;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        margin-right: 10px;
+      }
+      button:hover {
+        background-color: #0056b3;
+      }
+      .result {
+        margin-top: 20px;
+        padding: 15px;
+        border-radius: 4px;
+        white-space: pre-wrap;
+        font-family: monospace;
+      }
+      .success {
+        background-color: #d4edda;
+        border: 1px solid #c3e6cb;
+        color: #155724;
+      }
+      .error {
+        background-color: #f8d7da;
+        border: 1px solid #f5c6cb;
+        color: #721c24;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>RENTAMOTO Authentication Test</h1>
+
+    <div class="container">
+      <h2>Test Registration</h2>
+      <form id="signupForm">
+        <div class="form-group">
+          <label for="signupEmail">Email:</label>
+          <input
+            type="email"
+            id="signupEmail"
+            value="testuser123@gmail.com"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="signupPassword">Password:</label>
+          <input type="password" id="signupPassword" value="test123" required />
+        </div>
+        <div class="form-group">
+          <label for="signupName">Full Name:</label>
+          <input type="text" id="signupName" value="Test User" required />
+        </div>
+        <div class="form-group">
+          <label for="signupRole">Role:</label>
+          <select id="signupRole">
+            <option value="customer">Customer</option>
+            <option value="admin">Admin</option>
+          </select>
+        </div>
+        <button type="submit">Sign Up</button>
+      </form>
+      <div id="signupResult" class="result" style="display: none"></div>
+    </div>
+
+    <div class="container">
+      <h2>Test Login</h2>
+      <form id="loginForm">
+        <div class="form-group">
+          <label for="loginEmail">Email:</label>
+          <input
+            type="email"
+            id="loginEmail"
+            value="testuser123@gmail.com"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="loginPassword">Password:</label>
+          <input type="password" id="loginPassword" value="test123" required />
+        </div>
+        <button type="submit">Login</button>
+      </form>
+      <div id="loginResult" class="result" style="display: none"></div>
+    </div>
+
+    <script>
+      const API_BASE = "http://localhost:3001";
+
+      // Test signup
+      document
+        .getElementById("signupForm")
+        .addEventListener("submit", async (e) => {
+          e.preventDefault();
+          const resultDiv = document.getElementById("signupResult");
+
+          const signupData = {
+            email: document.getElementById("signupEmail").value,
+            password: document.getElementById("signupPassword").value,
+            name: document.getElementById("signupName").value,
+            role: document.getElementById("signupRole").value,
+          };
+
+          console.log("Attempting signup with:", signupData);
+
+          try {
+            const response = await fetch(`${API_BASE}/auth/signup`, {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(signupData),
+            });
+
+            const data = await response.json();
+            console.log("Signup response:", data);
+
+            resultDiv.style.display = "block";
+            if (response.ok) {
+              resultDiv.className = "result success";
+              resultDiv.textContent = `Success!\n\n${JSON.stringify(
+                data,
+                null,
+                2
+              )}`;
+            } else {
+              resultDiv.className = "result error";
+              resultDiv.textContent = `Error (${
+                response.status
+              }):\n\n${JSON.stringify(data, null, 2)}`;
+            }
+          } catch (error) {
+            console.error("Signup error:", error);
+            resultDiv.style.display = "block";
+            resultDiv.className = "result error";
+            resultDiv.textContent = `Network Error:\n\n${error.message}`;
+          }
+        });
+
+      // Test login
+      document
+        .getElementById("loginForm")
+        .addEventListener("submit", async (e) => {
+          e.preventDefault();
+          const resultDiv = document.getElementById("loginResult");
+
+          const loginData = {
+            email: document.getElementById("loginEmail").value,
+            password: document.getElementById("loginPassword").value,
+          };
+
+          console.log("Attempting login with:", loginData);
+
+          try {
+            const response = await fetch(`${API_BASE}/auth/login`, {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(loginData),
+            });
+
+            const data = await response.json();
+            console.log("Login response:", data);
+
+            resultDiv.style.display = "block";
+            if (response.ok) {
+              resultDiv.className = "result success";
+              resultDiv.textContent = `Success!\n\n${JSON.stringify(
+                data,
+                null,
+                2
+              )}`;
+
+              // Test if we can access a protected endpoint
+              if (
+                data.success &&
+                data.data &&
+                data.data.session &&
+                data.data.session.access_token
+              ) {
+                console.log("Testing protected endpoint with token...");
+                try {
+                  const profileResponse = await fetch(
+                    `${API_BASE}/auth/profile`,
+                    {
+                      headers: {
+                        Authorization: `Bearer ${data.data.session.access_token}`,
+                      },
+                    }
+                  );
+                  const profileData = await profileResponse.json();
+                  console.log("Profile response:", profileData);
+                  resultDiv.textContent += `\n\nProfile Test:\n${JSON.stringify(
+                    profileData,
+                    null,
+                    2
+                  )}`;
+                } catch (profileError) {
+                  console.error("Profile test failed:", profileError);
+                  resultDiv.textContent += `\n\nProfile Test Failed: ${profileError.message}`;
+                }
+              }
+            } else {
+              resultDiv.className = "result error";
+              resultDiv.textContent = `Error (${
+                response.status
+              }):\n\n${JSON.stringify(data, null, 2)}`;
+            }
+          } catch (error) {
+            console.error("Login error:", error);
+            resultDiv.style.display = "block";
+            resultDiv.className = "result error";
+            resultDiv.textContent = `Network Error:\n\n${error.message}`;
+          }
+        });
+
+      // Test backend health on page load
+      window.addEventListener("load", async () => {
+        try {
+          const response = await fetch(`${API_BASE}/health`);
+          const data = await response.json();
+          console.log("Backend health check:", data);
+        } catch (error) {
+          console.error("Backend health check failed:", error);
+          alert(
+            "Backend server appears to be down. Please make sure it's running on port 3001."
+          );
+        }
+      });
+    </script>
+  </body>
+</html>
