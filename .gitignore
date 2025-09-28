@@ -84,3 +84,4 @@ temp/
 # Testing
 test-results/
 coverage/
+.vercel
