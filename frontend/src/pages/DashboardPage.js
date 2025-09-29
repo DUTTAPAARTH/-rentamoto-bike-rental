@@ -14,7 +14,7 @@ import {
   useTheme,
   alpha,
 } from "@mui/material";
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../contexts/AuthContext";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import DirectionsBikeIcon from "@mui/icons-material/DirectionsBike";

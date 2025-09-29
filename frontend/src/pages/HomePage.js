@@ -12,7 +12,7 @@ import {
   alpha,
 } from "@mui/material";
 import { Link } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../contexts/AuthContext";
 import DirectionsBikeIcon from "@mui/icons-material/DirectionsBike";
 import SpeedIcon from "@mui/icons-material/Speed";
 import SecurityIcon from "@mui/icons-material/Security";

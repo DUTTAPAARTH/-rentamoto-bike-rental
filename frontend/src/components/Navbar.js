@@ -14,7 +14,7 @@ import {
   alpha,
 } from "@mui/material";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../contexts/AuthContext";
 import DirectionsBikeIcon from "@mui/icons-material/DirectionsBike";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import LogoutIcon from "@mui/icons-material/Logout";

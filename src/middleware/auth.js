@@ -40,12 +40,14 @@ async function authenticateUser(req, res, next) {
       // Check if this is a development token
       if (token.startsWith("dev.")) {
         console.log("🧪 Processing development token");
-        
+
         try {
           // Extract payload from dev token (base64 decode)
-          const payload = JSON.parse(Buffer.from(token.substring(4), 'base64').toString());
+          const payload = JSON.parse(
+            Buffer.from(token.substring(4), "base64").toString()
+          );
           console.log("🧪 Token payload:", JSON.stringify(payload, null, 2));
-          
+
           // Check if token is expired
           if (payload.exp && payload.exp < Math.floor(Date.now() / 1000)) {
             console.log("🧪 Token is expired");
@@ -222,8 +224,10 @@ async function optionalAuth(req, res, next) {
       if (token.startsWith("dev.")) {
         try {
           // Extract payload from dev token (base64 decode)
-          const payload = JSON.parse(Buffer.from(token.substring(4), 'base64').toString());
-          
+          const payload = JSON.parse(
+            Buffer.from(token.substring(4), "base64").toString()
+          );
+
           // Check if token is expired (but don't reject, just continue without auth)
           if (payload.exp && payload.exp < Math.floor(Date.now() / 1000)) {
             return next();

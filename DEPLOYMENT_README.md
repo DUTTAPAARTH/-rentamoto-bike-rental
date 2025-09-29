@@ -8,7 +8,7 @@ A full-stack bike rental platform built with **React**, **Node.js**, **Express**
 - **🔧 Robust Node.js Backend** - Express.js with comprehensive API
 - **🔐 Authentication System** - JWT-based with role management
 - **🚲 Complete Bike Management** - Rent, return, track, and manage bikes
-- **💳 Cost Calculation** - Automatic pricing based on rental duration  
+- **💳 Cost Calculation** - Automatic pricing based on rental duration
 - **📊 Admin Dashboard** - User management and analytics
 - **⚡ Real-time Updates** - Live bike availability and booking status
 
@@ -20,6 +20,7 @@ A full-stack bike rental platform built with **React**, **Node.js**, **Express**
 ## 🛠️ Tech Stack
 
 ### Frontend
+
 - **React 18** - Modern React with hooks
 - **Material-UI v5** - Professional UI components
 - **React Router v6** - Client-side routing
@@ -27,6 +28,7 @@ A full-stack bike rental platform built with **React**, **Node.js**, **Express**
 - **Date-fns** - Date manipulation utilities
 
 ### Backend
+
 - **Node.js** - JavaScript runtime
 - **Express.js** - Web application framework
 - **Supabase** - PostgreSQL database and authentication
@@ -59,17 +61,20 @@ rentamoto/
 ## 🚀 Quick Start
 
 ### Prerequisites
-- **Node.js** 16+ 
+
+- **Node.js** 16+
 - **npm** or **yarn**
 - **Supabase Account** (free tier available)
 
 ### 1. Clone Repository
+
 ```bash
 git clone <repository-url>
 cd rentamoto
 ```
 
 ### 2. Install Dependencies
+
 ```bash
 # Backend
 npm install
@@ -81,6 +86,7 @@ cd ..
 ```
 
 ### 3. Environment Setup
+
 ```bash
 # Copy environment template
 cp .env.example .env
@@ -92,22 +98,25 @@ cp .env.example .env
 ```
 
 ### 4. Database Setup
+
 ```bash
 # Run database migrations
 npm run migrate
 ```
 
 ### 5. Start Development Servers
+
 ```bash
 # Terminal 1: Backend (Port 3001)
 npm run dev
 
-# Terminal 2: Frontend (Port 3000)  
+# Terminal 2: Frontend (Port 3000)
 cd frontend
 npm start
 ```
 
 ### 6. Access the Application
+
 - **Frontend**: http://localhost:3000
 - **API**: http://localhost:3001
 - **API Health**: http://localhost:3001/health
@@ -122,24 +131,28 @@ Password: test123
 ## 📱 API Endpoints
 
 ### Authentication
+
 - `POST /auth/signup` - User registration
 - `POST /auth/login` - User login
 - `POST /auth/logout` - User logout
 - `GET /auth/me` - Get current user
 
 ### Bikes
+
 - `GET /bikes` - List all bikes
 - `POST /bikes` - Add new bike (Admin)
 - `PUT /bikes/:id` - Update bike (Admin)
 - `DELETE /bikes/:id` - Delete bike (Admin)
 
 ### Rentals
+
 - `POST /rent` - Rent a bike
 - `POST /return` - Return a bike
 - `GET /my-bookings` - User's rental history
 - `GET /active-rental` - Current active rental
 
 ### Admin
+
 - `GET /bookings` - All bookings (Admin)
 - `GET /revenue` - Revenue analytics (Admin)
 
@@ -148,12 +161,14 @@ Password: test123
 ### Vercel (Recommended)
 
 1. **Backend Deployment**:
+
    ```bash
    # Deploy backend to Vercel
    vercel --prod
    ```
 
 2. **Frontend Deployment**:
+
    ```bash
    cd frontend
    # Update API_URL in environment
@@ -164,7 +179,7 @@ Password: test123
 3. **Environment Variables**:
    Set in Vercel dashboard:
    - `SUPABASE_URL`
-   - `SUPABASE_ANON_KEY` 
+   - `SUPABASE_ANON_KEY`
    - `SUPABASE_SERVICE_ROLE_KEY`
    - `NODE_ENV=production`
 
@@ -185,6 +200,7 @@ npm test
 ## 📊 Database Schema
 
 ### Tables
+
 - `user_profiles` - User information and roles
 - `bikes` - Bike inventory and details
 - `bookings` - Rental transactions

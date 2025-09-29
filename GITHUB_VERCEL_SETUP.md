@@ -10,6 +10,7 @@
 ## 🌐 Step 1: Create GitHub Repository
 
 ### Option A: GitHub Web Interface (Recommended)
+
 1. Go to https://github.com
 2. Click "+" → "New repository"
 3. Name: `rentamoto-bike-rental`
@@ -19,6 +20,7 @@
 7. Click "Create repository"
 
 ### Option B: GitHub CLI (if you have it installed)
+
 ```bash
 gh repo create rentamoto-bike-rental --public --description "Full-stack bike rental management system"
 ```
@@ -39,16 +41,19 @@ git push -u origin main
 ## ⚡ Step 3: Deploy to Vercel
 
 ### 3.1 Install Vercel CLI
+
 ```bash
 npm install -g vercel
 ```
 
 ### 3.2 Login to Vercel
+
 ```bash
 vercel login
 ```
 
 ### 3.3 Deploy Backend
+
 ```bash
 # From the root directory
 vercel --prod
@@ -62,12 +67,13 @@ vercel --prod
 ```
 
 ### 3.4 Deploy Frontend
+
 ```bash
 cd frontend
 vercel --prod
 
 # Follow the prompts:
-# - Link to existing project? N  
+# - Link to existing project? N
 # - Project name: rentamoto-frontend
 # - Directory: ./
 # - Build command: npm run build
@@ -77,6 +83,7 @@ vercel --prod
 ## 🔧 Step 4: Configure Environment Variables
 
 ### Backend Environment Variables (in Vercel Dashboard)
+
 Navigate to your backend project in Vercel → Settings → Environment Variables:
 
 ```
@@ -88,6 +95,7 @@ JWT_SECRET=your_super_secure_jwt_secret_32_chars_min
 ```
 
 ### Frontend Environment Variables (in Vercel Dashboard)
+
 Navigate to your frontend project in Vercel → Settings → Environment Variables:
 
 ```
@@ -109,13 +117,15 @@ After deployment, update your backend CORS configuration:
 ## 🧪 Step 6: Test Deployment
 
 ### Test Endpoints:
+
 - **Frontend**: https://your-frontend-domain.vercel.app
 - **Backend Health**: https://your-backend-domain.vercel.app/health
 - **API**: https://your-backend-domain.vercel.app/bikes
 
 ### Test Flow:
+
 1. ✅ Visit frontend URL
-2. ✅ Sign up with new account  
+2. ✅ Sign up with new account
 3. ✅ Login with demo account
 4. ✅ Browse bikes
 5. ✅ Make a rental booking
@@ -135,6 +145,7 @@ Once GitHub and Vercel are connected:
 ### Common Issues:
 
 1. **Build Fails**:
+
    ```bash
    # Check build locally
    cd frontend
@@ -142,6 +153,7 @@ Once GitHub and Vercel are connected:
    ```
 
 2. **API Connection Issues**:
+
    - Verify `REACT_APP_API_URL` matches backend URL
    - Check CORS configuration
    - Ensure all environment variables are set
@@ -152,6 +164,7 @@ Once GitHub and Vercel are connected:
    - Run migration if needed
 
 ### Useful Commands:
+
 ```bash
 # View deployment logs
 vercel logs [deployment-url]
@@ -166,10 +179,12 @@ npm run build
 ## 📱 Next Steps After Deployment
 
 1. **Custom Domain** (Optional):
+
    - Add custom domain in Vercel dashboard
    - Update CORS and environment variables
 
 2. **Monitoring**:
+
    - Set up Vercel Analytics
    - Monitor performance and errors
 
@@ -197,6 +212,7 @@ git push origin main
 ## 📞 Support
 
 If you encounter issues:
+
 1. Check Vercel deployment logs
 2. Verify all environment variables
 3. Test API endpoints directly

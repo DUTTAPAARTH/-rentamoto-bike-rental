@@ -3,7 +3,6 @@ import {
   Container,
   Grid,
   Card,
-  CardContent,
   Typography,
   TextField,
   Button,
@@ -15,7 +14,7 @@ import {
   useTheme,
   alpha,
 } from "@mui/material";
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../contexts/AuthContext";
 import axios from "axios";
 import PersonIcon from "@mui/icons-material/Person";
 import EmailIcon from "@mui/icons-material/Email";
